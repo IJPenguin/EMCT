@@ -1,0 +1,2 @@
+https://learn.microsoft.com/en-us/azure/cosmos-db/mongodb/introduction 
+https://learn.microsoft.com/en-us/azure/cosmos-db/mongodb/vcore/introduction 

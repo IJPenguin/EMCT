@@ -1,0 +1,25 @@
+{
+	"name": "emct",
+	"version": "1.0.0",
+	"description": "Environment Monitoring and Conservation Tool",
+	"main": "./src/server.js",
+	"scripts": {
+		"dev": "nodemon"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/IJPenguin/EMCT.git"
+	},
+	"author": "Machinist",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/IJPenguin/EMCT/issues"
+	},
+	"homepage": "https://github.com/IJPenguin/EMCT#readme",
+	"dependencies": {
+		"@colors/colors": "^1.6.0",
+		"dotenv": "^16.4.1",
+		"express": "^4.18.2",
+		"nodemon": "^3.0.3"
+	}
+}
