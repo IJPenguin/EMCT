@@ -128,3 +128,12 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# dataset
+dataset
+
+#extras
+detector/OIDv4_Toolkit
+
+# venv
+.venv
