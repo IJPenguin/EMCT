@@ -24,7 +24,19 @@ const containerName = process.env.CONTAINER_NAME;
 // Report Route
 app.route("/report").get(upload.single("img"), (req, res) => {
 	//Type Checking the request
-	checkRequest(req);
+	try {
+		checkRequest(req);
+	} catch (err) {
+		res.status(400).send("Bad Request");
+		fs.appendFile(
+			"../logs",
+			`${Date.now()} - ${req.body.id} - Failed \n`,
+			(err) => {
+				if (err) throw err;
+				console.log("Log Updated");
+			}
+		);
+	}
 	try {
 		// Getting Image Details
 		const imgPath = `${process.env.UPLOAD_PATH}/${req.file.originalname}`;
@@ -41,17 +53,28 @@ app.route("/report").get(upload.single("img"), (req, res) => {
 		);
 
 		// Send all the data to CosmosDB
-			
+		
 
 		//Log the request
 		// ?Dev - Use "appendFileSync" for frequent reqests
-		fs.appendFile("../logs", `${Date.now()} - ${req.body.id}`, (err) => {
-			if (err) throw err;
-			console.log("Log Updated");
-		});
+		fs.appendFile(
+			"../logs",
+			`${Date.now()} - ${req.body.id} - Successful \n`,
+			(err) => {
+				if (err) throw err;
+				console.log("Log Updated");
+			}
+		);
 		res.status(200).send("Report Created");
 	} catch (error) {
-		console.log(error);
+		fs.appendFile(
+			"../logs",
+			`${Date.now()} - ${req.body.id} - Failed \n`,
+			(err) => {
+				if (err) throw err;
+				console.log("Log Updated");
+			}
+		);
 		res.status(500).send("Internal Server Error");
 	}
 });
