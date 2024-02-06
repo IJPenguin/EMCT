@@ -1,0 +1,12 @@
+nc: 6  # Number of classes including background
+
+train: E:\EMCT\detector\Dataset\train  # Base path for all class directories
+val: E:\EMCT\detector\Dataset\val  # Optional: Base path for validation images/labels
+
+names: ['Axe', 'Chainsaw', 'Handgun', 'Knife', 'Rifle', 'background']  # Class names in order
+
+# Example individual label file content for an image with an axe and a knife:
+# 0 0.3 0.5 0.2 0.4  # Axe bounding box
+# 3 0.7 0.2 0.1 0.3  # Knife bounding box
+
+# Remember to update paths and content for other classes accordingly
