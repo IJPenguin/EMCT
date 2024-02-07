@@ -1,11 +1,14 @@
 const express = require("express");
-const dotenv = require("dotenv").config();
 const fs = require("fs");
+const { MongoClient } = require("mongodb");
+const dotenv = require("dotenv").config();
 const { BlobServiceClient } = require("@azure/storage-blob");
-const { uploadToBlob } = require("./middleware/azureBlobUpload");
 const multer = require("multer");
+
+const { checkRequest } = require("./utils");
+const { uploadToBlob } = require("./middleware/azureBlobUpload");
 const { storage } = require("./middleware/imageUpload");
-const { checkRequest } = require("./middleware/check");
+const { postReportToDB } = require("./middleware/publishReport");
 
 const app = express();
 const port = process.env.PORT || 6969;
@@ -21,8 +24,13 @@ const blobServiceClient = BlobServiceClient.fromConnectionString(
 // Azure Blob Container Name
 const containerName = process.env.CONTAINER_NAME;
 
+// MongoDB
+const connectionString = process.env.DB_CONNECTION_STRING;
+const mongoClient = new MongoClient(connectionString);
+const database = client.db();
+
 // Report Route
-app.route("/report").get(upload.single("img"), (req, res) => {
+app.route("/report").post(upload.single("img"), (req, res) => {
 	//Type Checking the request
 	try {
 		checkRequest(req);
@@ -53,8 +61,15 @@ app.route("/report").get(upload.single("img"), (req, res) => {
 		);
 
 		// Send all the data to CosmosDB
-		
-
+		postReportToDB(
+			mongoClient,
+			req.body.req_id,
+			req.body.time,
+			req.body.location,
+			imgLink,
+			req.body.description,
+			req.body.is_reported
+		);
 		//Log the request
 		// ?Dev - Use "appendFileSync" for frequent reqests
 		fs.appendFile(
