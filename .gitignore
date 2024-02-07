@@ -129,12 +129,13 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
+<<<<<<< HEAD
+uploads/
+=======
 # dataset
 detector/datasets
 detector/csv_folder
 #extras
-uploads/
-logs.txt
 detector/OIDv4_Toolkit
 Gun Detection.v1i.yolov8
 detector/runs
@@ -143,4 +144,3 @@ runs/
 
 # venv
 .venv
->>>>>>> af2f20c0624c14684481d5ab6dd0678add8ec85e
