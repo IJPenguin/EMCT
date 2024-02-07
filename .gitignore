@@ -129,6 +129,9 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
+<<<<<<< HEAD
+uploads/
+=======
 # dataset
 detector/datasets
 detector/csv_folder
@@ -141,4 +144,3 @@ runs/
 
 # venv
 .venv
-
