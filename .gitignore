@@ -130,10 +130,15 @@ dist
 .pnp.*
 
 # dataset
-dataset
-
+detector/datasets
+detector/csv_folder
 #extras
 detector/OIDv4_Toolkit
+Gun Detection.v1i.yolov8
+detector/runs
+
+runs/
 
 # venv
 .venv
+
