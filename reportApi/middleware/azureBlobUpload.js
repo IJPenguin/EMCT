@@ -15,6 +15,8 @@ const uploadToBlob = async (
 	} catch (error) {
 		console.log(error);
 	}
+
+	return imgLink;
 };
 
 module.exports = { uploadToBlob };
