@@ -45,7 +45,7 @@ def normalize_bbox_coordinates(annotation_file, image_width, image_height):
         normalized_box_height = box_height / height
         
         # Calculate normalized bounding box coordinates
-        normalized_x_min = normalized_x_center - normalized_box_width / 2
+        normalized_x_min = normalized_x_center - normalized_box_width / 2 
         normalized_y_min = normalized_y_center - normalized_box_height / 2
         normalized_x_max = normalized_x_center + normalized_box_width / 2
         normalized_y_max = normalized_y_center + normalized_box_height / 2
