@@ -139,7 +139,7 @@ detector/csv_folder
 detector/OIDv4_Toolkit
 Gun Detection.v1i.yolov8
 detector/runs
-
+logs.txt
 runs/
 
 # venv
