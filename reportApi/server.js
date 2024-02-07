@@ -29,6 +29,8 @@ const containerName = process.env.CONTAINER_NAME;
 const connectionString = process.env.DB_CONNECTION_STRING;
 const mongoClient = new MongoClient(connectionString);
 
+const dateTime = getCurrentDateTime();
+
 // Report Route
 app.route("/report").post(upload.single("img"), async (req, res) => {
 	//Type Checking the request
@@ -38,7 +40,7 @@ app.route("/report").post(upload.single("img"), async (req, res) => {
 		res.status(400).send("Bad Request");
 		fs.appendFile(
 			logFilePath,
-			`${getCurrentDateTime()} - ${req.body.req_id} - Failed \n`,
+			`${dateTime} - ${req.body.req_id} - Failed \n`,
 			(err) => {
 				if (err) {
 					console.error(`Error appending to ${logFilePath}:`, err);
@@ -79,7 +81,7 @@ app.route("/report").post(upload.single("img"), async (req, res) => {
 		//Log the request
 		fs.appendFile(
 			logFilePath,
-			`${getCurrentDateTime()} - ${req.body.req_id} - Successful \n`,
+			`${dateTime} - ${req.body.req_id} - Successful \n`,
 			(err) => {
 				if (err) {
 					console.error(`Error appending to ${logFilePath}:`, err);
@@ -92,7 +94,7 @@ app.route("/report").post(upload.single("img"), async (req, res) => {
 	} catch (error) {
 		fs.appendFile(
 			logFilePath,
-			`${getCurrentDateTime()} - ${req.body.req_id} - Failed \n`,
+			`${dateTime} - ${req.body.req_id} - Failed \n`,
 			(err) => {
 				if (err) {
 					console.error(`Error appending to ${logFilePath}:`, err);
