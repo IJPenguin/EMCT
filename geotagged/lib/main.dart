@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
@@ -79,11 +80,12 @@ class _HomePageState extends State<HomePage> {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [Colors.green.shade100, Colors.green],
+            colors: [Colors.white
+            , Colors.white],
           ),
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             CameraPreview(_cameraController),
             ElevatedButton(
@@ -180,7 +182,7 @@ class ReportPage extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [Colors.green.shade100, Colors.green],
+            colors: [Colors.white, Colors.white],
           ),
         ),
         child: Column(
@@ -210,9 +212,7 @@ class ReportDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Report Details'),
-      ),
+      
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -225,13 +225,18 @@ class ReportDetailsPage extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              
               Text(
                 'Title:',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               TextFormField(
-                // Add controller and decoration as needed
+                controller: titleController,
+                decoration: InputDecoration(
+                  hintText: 'Enter title',
+                ),
               ),
               SizedBox(height: 16),
               Text(
@@ -239,13 +244,17 @@ class ReportDetailsPage extends StatelessWidget {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               TextFormField(
+                controller: descriptionController,
                 maxLines: 4,
-                // Add controller and decoration as needed
+                decoration: InputDecoration(
+                  hintText: 'Enter description',
+                ),
               ),
               SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () {
                   // Handle sending the report details
+                  _sendReportDetails(context);
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => ThankYouPage()),
@@ -260,16 +269,66 @@ class ReportDetailsPage extends StatelessWidget {
       ),
     );
   }
+   void _sendReportDetails(BuildContext context) async {
+    // Get data from controllers
+    String title = titleController.text;
+    String description = descriptionController.text;
+
+    // Validate data as needed
+
+    // Prepare data to be sent in the request
+    Map<String, dynamic> requestData = {
+      'title': title,
+      'description': description,
+      // Add other data points as needed
+    };
+
+    // Convert data to JSON
+    String jsonData = jsonEncode(requestData);
+
+    // Make API request
+    try {
+      final response = await http.post(
+        Uri.parse("https://emctreportapi.azurewebsites.net/report"),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonData,
+      );
+
+      // Check the response status
+      if (response.statusCode == 200) {
+        // Handle successful response (report sent)
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ThankYouPage()),
+        );
+      } else {
+        // Handle unsuccessful response
+        print('Error sending report: ${response.statusCode}');
+        // You can show an error message or handle it in another way
+      }
+    } catch (error) {
+      // Handle network errors
+      print('Network error: $error');
+      // You can show an error message or handle it in another way
+    }
+  }
 }
+
+// Add these controllers at the beginning of your file
+final TextEditingController titleController = TextEditingController();
+final TextEditingController descriptionController = TextEditingController();
+
 
 class ThankYouPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Thank You'),
-      ),
+      
       body: Container(
+        height: double.infinity,
+        width: double.infinity,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
@@ -277,23 +336,21 @@ class ThankYouPage extends StatelessWidget {
             colors: [Colors.green.shade100, Colors.green],
           ),
         ),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Text('Thank you for reporting!'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.popUntil(context, ModalRoute.withName('/'));
-                },
-                style: ElevatedButton.styleFrom(primary: Colors.blue),
-                child: Text('Back to Home'),
-              ),
-            ],
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text('Thank you for reporting!'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.popUntil(context, ModalRoute.withName('/'));
+              },
+              style: ElevatedButton.styleFrom(primary: Colors.blue),
+              child: Text('Back to Home'),
+            ),
+          ],
         ),
       ),
     );
