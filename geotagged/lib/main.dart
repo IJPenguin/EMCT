@@ -9,6 +9,8 @@ import 'package:http/http.dart' as http;
 import 'dart:ui';
 import 'dart:async';
 
+late File imageFile; 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final cameras = await availableCameras();
