@@ -7,7 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
 import 'dart:ui';
-
+import 'dart:async';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,7 +17,6 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   final List<CameraDescription> cameras;
-  
 
   const MyApp({required this.cameras});
 
@@ -28,12 +27,62 @@ class MyApp extends StatelessWidget {
         primaryColor: Colors.green,
         scaffoldBackgroundColor: Colors.white,
       ),
-      home: HomePage(cameras: cameras),
+      home: LogoPage(cameras: cameras),
+      // HomePage(cameras: cameras),
     );
   }
 }
 
+class LogoPage extends StatefulWidget {
+  final List<CameraDescription> cameras;
 
+  const LogoPage({required this.cameras});
+
+  @override
+  State<LogoPage> createState() => _LogoPageState();
+}
+
+class _LogoPageState extends State<LogoPage> {
+  @override
+  void initState() {
+    super.initState();
+
+    // Navigate to the home page after 6 seconds
+    Timer(Duration(seconds: 6), () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => HomePage(
+                cameras: widget
+                    .cameras)), // Replace 'MyApp' with the name of your main app widget
+      );
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Color.fromARGB(255, 166, 194, 168),
+      // backgroundColor: Colors.black,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              'asset/logo.jpg',
+              width: 150,
+              height: 150,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Text('EMCT', style: TextStyle(fontSize: 32, color: Colors.green, fontWeight: FontWeight.bold),)
+          ],
+        ),
+      ),
+    );
+  }
+}
 
 class HomePage extends StatefulWidget {
   final List<CameraDescription> cameras;
@@ -51,7 +100,8 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _cameraController = CameraController(widget.cameras.first, ResolutionPreset.medium);
+    _cameraController =
+        CameraController(widget.cameras.first, ResolutionPreset.medium);
     _cameraController.initialize().then((_) {
       if (!mounted) {
         return;
@@ -73,15 +123,12 @@ class _HomePageState extends State<HomePage> {
     }
 
     return Scaffold(
-      
-      body: 
-      Container(
+      body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [Colors.white
-            , Colors.white],
+            colors: [Colors.white, Colors.white],
           ),
         ),
         child: Column(
@@ -176,7 +223,6 @@ class ReportPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-  
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -189,7 +235,8 @@ class ReportPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.file(File(imageFile.path)),
-            Text('Latitude: ${location.latitude}, Longitude: ${location.longitude}'),
+            Text(
+                'Latitude: ${location.latitude}, Longitude: ${location.longitude}'),
             ElevatedButton(
               onPressed: () {
                 // Handle sending the report
@@ -212,7 +259,6 @@ class ReportDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -227,7 +273,6 @@ class ReportDetailsPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              
               Text(
                 'Title:',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -269,7 +314,8 @@ class ReportDetailsPage extends StatelessWidget {
       ),
     );
   }
-   void _sendReportDetails(BuildContext context) async {
+
+  void _sendReportDetails(BuildContext context) async {
     // Get data from controllers
     String title = titleController.text;
     String description = descriptionController.text;
@@ -288,13 +334,17 @@ class ReportDetailsPage extends StatelessWidget {
 
     // Make API request
     try {
-      final response = await http.post(
-        Uri.parse("https://emctreportapi.azurewebsites.net/report"),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: jsonData,
-      );
+      final request = http.MultipartRequest(
+          'POST', Uri.parse('https://emctreportapi.azurewebsites.net/report'));
+      request.fields['req_id'] = 'John Doe';
+      request.fields['locatioin'] = 'John Doe';
+      request.fields['title'] = 'John Doe';
+      request.fields['description'] = 'John Doe';
+      request.fields['time'] = 'John Doe';
+      request.fields['is_reported'] = 'John Doe';
+      request.files
+          .add(await http.MultipartFile.fromBytes('img', imageFile.readAsBytesSync(), filename:'photo.jpg'));
+      var response = await request.send();
 
       // Check the response status
       if (response.statusCode == 200) {
@@ -320,12 +370,10 @@ class ReportDetailsPage extends StatelessWidget {
 final TextEditingController titleController = TextEditingController();
 final TextEditingController descriptionController = TextEditingController();
 
-
 class ThankYouPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       body: Container(
         height: double.infinity,
         width: double.infinity,
@@ -356,7 +404,6 @@ class ThankYouPage extends StatelessWidget {
     );
   }
 }
-
 
 class SavedImagesPage extends StatelessWidget {
   @override
