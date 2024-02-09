@@ -4,7 +4,7 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 
-export default function Dashboard() {
+export default function AirQuality() {
   return (
     <ResizablePanelGroup
       direction="vertical"
@@ -13,19 +13,19 @@ export default function Dashboard() {
       <ResizablePanelGroup direction="horizontal">
         <ResizablePanel defaultSize={50}>
           <div className="flex items-center justify-center p-6 ">
-            <span className="font-semibold">Temperature</span>
+            <span className="font-semibold">Air Quality Stats</span>
           </div>
         </ResizablePanel>
         <ResizableHandle />
         <ResizablePanel defaultSize={15}>
           <div className="flex items-center justify-center p-6">
-            <span className="font-semibold">Sea Level</span>
+            <span className="font-semibold">Air Quality Stats</span>
           </div>
         </ResizablePanel>
         <ResizableHandle />
         <ResizablePanel defaultSize={35}>
           <div className="flex items-center justify-center p-6">
-            <span className="font-semibold">Trees Planted</span>
+            <span className="font-semibold">Air Quality Stats</span>
           </div>
         </ResizablePanel>
       </ResizablePanelGroup>
@@ -33,13 +33,13 @@ export default function Dashboard() {
       <ResizablePanelGroup direction="horizontal">
         <ResizablePanel defaultSize={50}>
           <div className="flex items-center justify-center p-6">
-            <span className="font-semibold">Custom City Data</span>
+            <span className="font-semibold">Air Quality Stats</span>
           </div>
         </ResizablePanel>
         <ResizableHandle />
         <ResizablePanel defaultSize={50}>
           <div className="flex items-center justify-center p-6">
-            <span className="font-semibold">Renewable Energy</span>
+            <span className="font-semibold">Air Quality Stats</span>
           </div>
         </ResizablePanel>
       </ResizablePanelGroup>

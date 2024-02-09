@@ -1,5 +1,11 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Dashboard from "./Dashboard";
+import TreeCover from "./TreeCover";
+import WaterQuality from "./WaterQuality";
+import ClimateChange from "./ClimateChange";
+import EnergyStats from "./EnergyStats";
+import AirQuality from "./AirQuality";
+import Map from "./Map";
 
 export default function Selectors() {
   return (
@@ -17,12 +23,24 @@ export default function Selectors() {
         <TabsContent value="dashboard">
           <Dashboard />
         </TabsContent>
-        <TabsContent value="tree"></TabsContent>
-        <TabsContent value="air"></TabsContent>
-        <TabsContent value="water"></TabsContent>
-        <TabsContent value="climate"></TabsContent>
-        <TabsContent value="energy"></TabsContent>
-        <TabsContent value="map"></TabsContent>
+        <TabsContent value="tree">
+          <TreeCover />
+        </TabsContent>
+        <TabsContent value="air">
+          <AirQuality />
+        </TabsContent>
+        <TabsContent value="water">
+          <WaterQuality />
+        </TabsContent>
+        <TabsContent value="climate">
+          <ClimateChange />
+        </TabsContent>
+        <TabsContent value="energy">
+          <EnergyStats />
+        </TabsContent>
+        <TabsContent value="map">
+          <Map />
+        </TabsContent>
       </Tabs>
     </div>
   );

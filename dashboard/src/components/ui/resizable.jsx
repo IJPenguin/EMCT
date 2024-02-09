@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 const ResizablePanelGroup = ({ className, ...props }) => (
   <ResizablePrimitive.PanelGroup
     className={cn(
-      "flex h-[100vh] w-full data-[panel-group-direction=vertical]:flex-col",
+      "flex h-full w-full data-[panel-group-direction=vertical]:flex-col",
       className
     )}
     {...props}
