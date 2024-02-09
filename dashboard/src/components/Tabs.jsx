@@ -1,9 +1,10 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Dashboard from "./Dashboard";
 
 export default function Selectors() {
   return (
     <div className="mt-4 flex justify-center">
-      <Tabs defaultValue="account">
+      <Tabs defaultValue="dashboard">
         <TabsList>
           <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
           <TabsTrigger value="tree">Tree Cover</TabsTrigger>
@@ -13,7 +14,9 @@ export default function Selectors() {
           <TabsTrigger value="energy">Energy Stats</TabsTrigger>
           <TabsTrigger value="map">Map</TabsTrigger>
         </TabsList>
-        <TabsContent value="dashboard"></TabsContent>
+        <TabsContent value="dashboard">
+          <Dashboard />
+        </TabsContent>
         <TabsContent value="tree"></TabsContent>
         <TabsContent value="air"></TabsContent>
         <TabsContent value="water"></TabsContent>
