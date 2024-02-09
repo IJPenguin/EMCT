@@ -19,7 +19,7 @@ const upload = multer({ storage: storage });
 
 // Azure Blob Client
 const blobServiceClient = BlobServiceClient.fromConnectionString(
-	process.env.STORAGE_ACCOUNT_CONNECTION_STRING
+  process.env.STORAGE_ACCOUNT_CONNECTION_STRING
 );
 
 // Azure Blob Container Name
@@ -33,81 +33,81 @@ const dateTime = getCurrentDateTime();
 
 // Report Route
 app.route("/report").post(upload.single("img"), async (req, res) => {
-	//Type Checking the request
-	try {
-		checkRequest(req);
-	} catch (err) {
-		res.status(400).send("Bad Request");
-		fs.appendFile(
-			logFilePath,
-			`${dateTime} - ${req.body.req_id} - Failed \n`,
-			(err) => {
-				if (err) {
-					console.error(`Error appending to ${logFilePath}:`, err);
-					throw err;
-				}
-				console.log("Log entry appended successfully.");
-			}
-		);
-		return;
-	}
-	try {
-		// Getting Image Details
-		const imgPath = `${process.env.UPLOAD_PATH}/${req.file.originalname}`;
-		const imgName = req.file.originalname;
-		let imgLink = null;
-		let result = null;
+  //Type Checking the request
+  try {
+    checkRequest(req);
+  } catch (err) {
+    res.status(400).send("Bad Request");
+    fs.appendFile(
+      logFilePath,
+      `${dateTime} - ${req.body.req_id} - Failed \n`,
+      (err) => {
+        if (err) {
+          console.error(`Error appending to ${logFilePath}:`, err);
+          throw err;
+        }
+        console.log("Log entry appended successfully.");
+      }
+    );
+    return;
+  }
+  try {
+    // Getting Image Details
+    const imgPath = `${process.env.UPLOAD_PATH}/${req.file.originalname}`;
+    const imgName = req.file.originalname;
+    let imgLink = null;
+    let result = null;
 
-		// Upload image to Blob
-		imgLink = await uploadToBlob(
-			blobServiceClient,
-			containerName,
-			imgName,
-			imgPath,
-			imgLink
-		);
+    // Upload image to Blob
+    imgLink = await uploadToBlob(
+      blobServiceClient,
+      containerName,
+      imgName,
+      imgPath,
+      imgLink
+    );
 
-		await postReportToDB(
-			mongoClient,
-			req.body.req_id,
-			req.body.time,
-			req.body.title,
-			req.body.location,
-			imgLink,
-			req.body.description,
-			req.body.is_reported
-		);
+    await postReportToDB(
+      mongoClient,
+      req.body.req_id,
+      req.body.time,
+      req.body.title,
+      req.body.location,
+      imgLink,
+      req.body.description,
+      req.body.is_reported
+    );
 
-		//Log the request
-		fs.appendFile(
-			logFilePath,
-			`${dateTime} - ${req.body.req_id} - Successful \n`,
-			(err) => {
-				if (err) {
-					console.error(`Error appending to ${logFilePath}:`, err);
-					throw err;
-				}
-				console.log("Log entry appended successfully.");
-			}
-		);
-		res.status(200).send("Report Created");
-	} catch (error) {
-		fs.appendFile(
-			logFilePath,
-			`${dateTime} - ${req.body.req_id} - Failed \n`,
-			(err) => {
-				if (err) {
-					console.error(`Error appending to ${logFilePath}:`, err);
-					throw err;
-				}
-				console.log("Log entry appended successfully.");
-			}
-		);
+    //Log the request
+    fs.appendFile(
+      logFilePath,
+      `${dateTime} - ${req.body.req_id} - Successful \n`,
+      (err) => {
+        if (err) {
+          console.error(`Error appending to ${logFilePath}:`, err);
+          throw err;
+        }
+        console.log("Log entry appended successfully.");
+      }
+    );
+    res.status(200).send("Report Created");
+  } catch (error) {
+    fs.appendFile(
+      logFilePath,
+      `${dateTime} - ${req.body.req_id} - Failed \n`,
+      (err) => {
+        if (err) {
+          console.error(`Error appending to ${logFilePath}:`, err);
+          throw err;
+        }
+        console.log("Log entry appended successfully.");
+      }
+    );
 
-		res.status(500).send("Internal Server Error");
-	}
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 app.listen(port, () => {
-	console.log(`Server is running on http://localhost:${port}`);
+  console.log(`Server is running on http://localhost:${port}`);
 });
