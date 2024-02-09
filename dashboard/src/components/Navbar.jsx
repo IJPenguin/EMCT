@@ -10,7 +10,7 @@ export default function Navbar() {
           </div>
           <div className="flex">
             <Button variant="outline">Contact Us</Button>
-            <Button variant="outline" className="ml-1">
+            <Button variant="outline" className="ml-2">
               Contribute
             </Button>
           </div>
