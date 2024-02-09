@@ -3,4 +3,4 @@ train: ../images/train
 val: ../images/validation
 # test: ./images/test # test images (relative to 'path') 4 images
 
-names: ['Axe','Chainsaw','Handgun','Knife','Rifle']
+names: ["Chainsaw", "Knife", "Rifle", "Axe", "Handgun"]

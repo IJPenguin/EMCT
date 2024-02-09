@@ -135,12 +135,16 @@ uploads/
 # dataset
 detector/datasets
 detector/csv_folder
+# runs
+detector/runs/train2/weights/
 #extras
 detector/OIDv4_Toolkit
 Gun Detection.v1i.yolov8
 detector/runs
 logs.txt
 runs/
+yolov8n.pt
+tempCodeRunnerFile.python
 
 # venv
 .venv
