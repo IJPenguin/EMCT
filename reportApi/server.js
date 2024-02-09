@@ -66,6 +66,7 @@ app.route("/report").post(upload.single("img"), async (req, res) => {
 			imgPath,
 			imgLink
 		);
+		console.log("Image Link: ", imgLink);
 
 		await postReportToDB(
 			mongoClient,
