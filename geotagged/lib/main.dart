@@ -5,6 +5,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
+import 'dart:ui';
 
 
 void main() async {
@@ -15,6 +16,7 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   final List<CameraDescription> cameras;
+  
 
   const MyApp({required this.cameras});
 
@@ -275,24 +277,29 @@ class ThankYouPage extends StatelessWidget {
             colors: [Colors.green.shade100, Colors.green],
           ),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Thank you for reporting!'),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.popUntil(context, ModalRoute.withName('/'));
-              },
-              style: ElevatedButton.styleFrom(primary: Colors.blue),
-              child: Text('Back to Home'),
-            ),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text('Thank you for reporting!'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.popUntil(context, ModalRoute.withName('/'));
+                },
+                style: ElevatedButton.styleFrom(primary: Colors.blue),
+                child: Text('Back to Home'),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
-  
 }
+
 
 class SavedImagesPage extends StatelessWidget {
   @override
