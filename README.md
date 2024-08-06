@@ -28,7 +28,7 @@ EMCT (Environment Monitoring and Conservation Tool) is a powerful computer visio
 
 1. **Clone the repository**
     ```sh
-    git clone https://github.com/yourusername/emct.git
+    gh repo clone IJPenguin/EMCT
     cd emct
     ```
 
