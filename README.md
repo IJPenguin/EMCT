@@ -81,13 +81,6 @@ We welcome contributions from the community! Here’s how you can get involved:
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-## Contact
-
-For any inquiries or support, please contact:
-- **Name**: Agnivesh Kumar
-- **Email**: agniveshkumar15@gmail.com
-- **LinkedIn**: [Agnivesh Kumar](https://www.linkedin.com/in/agniveshhkumar/)
-
 ## Acknowledgements
 
 - [OpenCV](https://opencv.org/)
